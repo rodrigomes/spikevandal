@@ -33,6 +33,8 @@ module Paperclip
       @whiny               = options[:whiny].nil? ? true : options[:whiny]
       @format              = options[:format]
       @auto_orient         = options[:auto_orient].nil? ? true : options[:auto_orient]
+      @white_canvas        = Rails.root.join('public/images/white_canvas.png')
+
       if @auto_orient && @current_geometry.respond_to?(:auto_orient)
         @current_geometry.auto_orient
       end
@@ -56,6 +58,7 @@ module Paperclip
         parameters << source_file_options
         parameters << ":source"
         parameters << transformation_command
+        #parameters << white_canvas_composite
         parameters << convert_options
         parameters << ":dest"
 
@@ -72,11 +75,19 @@ module Paperclip
     end
 
     # Returns the command ImageMagick's +convert+ needs to transform the image
-    # into the thumbnail.
+    # into the 1008x1008.
     def transformation_command
       scale, crop = @current_geometry.transformation_to(@target_geometry, nil)
       trans = []
       trans << "-resize" << %["#{scale}"] unless scale.nil? || scale.empty?
+      trans
+    end
+
+    # Returns the command ImageMagick's +composite+ needs to transform the image
+    # into the white_canvas 1008x1152.
+    def white_canvas_composite
+      trans = []
+      trans << "convert " <<
       trans
     end
 
