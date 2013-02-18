@@ -1,7 +1,7 @@
 class Post < ActiveRecord::Base
   attr_accessible :content, :name, :title
   attr_accessible :image
-  has_attached_file :image, :styles => { :normal => "1008x1152" }, :processors => [:abc, :cde]
+  has_attached_file :image, :styles => { :normal => "1008x1152" }, :processors => [:cde]
 
   validates :image, :attachment_presence => true
 

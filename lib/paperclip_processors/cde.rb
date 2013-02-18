@@ -1,9 +1,6 @@
 module Paperclip
   class Cde < Processor
 
-  class InstanceNotGiven < ArgumentError;
-  end
-
   def initialize(file, options = {},attachment = nil)
     super
     @file = file
@@ -12,12 +9,7 @@ module Paperclip
     # PAWIEN: use default value only if option is not specified
     @white_canvas  = Rails.root.join('public/images/white_canvas.png')
     @current_geometry = Geometry.from_file file # This is pretty slow
-    @white_canvas_geometry = white_canvas_dimensions
-  end
-
-  def white_canvas_dimensions
-    return @white_canvas_dimensions if @white_canvas_dimensions
-    @white_canvas_dimensions = Geometry.from_file @white_canvas
+    @white_canvas_geometry = Geometry.from_file @white_canvas
   end
 
   def make
@@ -31,7 +23,7 @@ module Paperclip
       	"-gravity",
         "center",
         "#{@white_canvas}",
-        "#{@current_geometry.width.to_i}x#{@current_geometry.height.to_i}+#{@white_canvas_geometry.height.to_i / 2}+#{@white_canvas_geometry.width.to_i / 2}",
+         #"#{@current_geometry.width.to_i}x#{@current_geometry.height.to_i}+#{@watermark_geometry.height.to_i / 2}+#{@watermark_geometry.width.to_i / 2}",
         File.expand_path(@file.path),
         File.expand_path(dst.path)
       ].flatten.compact.join(" ").strip.squeeze(" ")
