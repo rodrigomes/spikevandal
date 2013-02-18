@@ -55,7 +55,7 @@ module Paperclip
         parameters = []
         parameters << source_file_options
         parameters << ":source"
-        ##parameters << transformation_command
+        parameters << transformation_command
         parameters << convert_options
         parameters << ":dest"
 
@@ -74,9 +74,8 @@ module Paperclip
     # Returns the command ImageMagick's +convert+ needs to transform the image
     # into the thumbnail.
     def transformation_command
-      scale = @current_geometry.transformation_to(@target_geometry)
+      scale, crop = @current_geometry.transformation_to(@target_geometry, nil)
       trans = []
-      trans << "-auto-orient" if auto_orient
       trans << "-resize" << %["#{scale}"] unless scale.nil? || scale.empty?
       trans
     end
