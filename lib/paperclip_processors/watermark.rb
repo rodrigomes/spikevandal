@@ -13,7 +13,7 @@ module Paperclip
        @whiny            = options[:whiny].nil? ? true : options[:whiny]
        @format           = options[:format]
        @watermark_path   = Rails.root.join('public/images/white_canvas.png')
-       @position         = options[:watermark_position].nil? ? "SouthEast" : options[:watermark_position]
+       @position         = options[:watermark_position].nil? ? "North" : options[:watermark_position]
 
        @current_format   = File.extname(@file.path)
        @basename         = File.basename(@file.path, @current_format)
@@ -28,7 +28,7 @@ module Paperclip
       dst.binmode
 
       command = "composite"
-      params = "-gravity #{@position} #{watermark_path} #{fromfile} #{tofile(dst)}"
+      params = "-gravity #{@position} #{fromfile} #{watermark_path} #{tofile(dst)}"
 
       begin
         success = Paperclip.run(command, params)
